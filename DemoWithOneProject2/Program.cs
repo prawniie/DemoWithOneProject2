@@ -11,7 +11,7 @@ namespace DemoWithOneProject2
             //DisplayAllFruits();
             //DisplayJustMognaFrukter();
 
-            //AddFruitsToBasket();
+            AddFruitsToBasket();
             DisplayBasketsWithContent();
 
         }

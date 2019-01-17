@@ -36,7 +36,7 @@ namespace DemoWithOneProject2
 
         internal List<Basket> GetBaskets()
         {
-            return _context.Baskets.Include(x => x.FruitInBaskets).ToList();
+            return _context.Baskets.ToList();
         }
 
         internal void AddFruitsInBasket()
@@ -64,30 +64,18 @@ namespace DemoWithOneProject2
             var aprikos = new Fruit { Name = "Aprikos", Category = mogen, Price = 12 };
             var apelsin = new Fruit { Name = "Apelsin", Category = färsk, Price = 8 };
 
-            var basket1 = new Basket { Name = "Erikas nya korg" };
-
-            var fib = new List<FruitInBasket>();
-            fib.Add(new FruitInBasket { Fruit = nypon });
-            fib.Add(new FruitInBasket { Fruit = päron });
-            fib.Add(new FruitInBasket { Fruit = ananas });
-
-            var basket2 = new Basket
+            var basket = new Basket
             {
-                Name = "Rebeckas nya korg",
+                Name = "Oscars kundkorg",
                 FruitInBaskets = new List<FruitInBasket>
                 {
-                    new FruitInBasket {Fruit = aprikos},
-                    new FruitInBasket {Fruit = apelsin},
-                    new FruitInBasket {Fruit = ananas}
+                    new FruitInBasket { Fruit = nypon },
+                    new FruitInBasket { Fruit = päron},
                 }
             };
 
-            basket1.FruitInBaskets = fib;
-            _context.Baskets.Add(basket1);
-            _context.Baskets.Add(basket2);
+            _context.Baskets.Add(basket);
             _context.SaveChanges();
-
-
         }
 
         internal List<Fruit> GetFruitsInCategory(string fruitCategory)
