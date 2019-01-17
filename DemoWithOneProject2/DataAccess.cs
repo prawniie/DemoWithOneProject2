@@ -14,9 +14,8 @@ namespace DemoWithOneProject2
           _context = new FruitContext();
         }
 
-        internal void AddCateroriesAndFruits()
+        internal void AddCategoriesAndFruits()
         {
-
             var torkad = new FruitCategory { Name = "Torkad" };
             var färsk = new FruitCategory { Name = "Färsk" };
             var mogen = new FruitCategory { Name = "Mogen" };
@@ -28,6 +27,16 @@ namespace DemoWithOneProject2
             _context.Fruits.Add(new Fruit { Name = "Persika", Category = torkad, Price = 55 });
 
             _context.SaveChanges();
+        }
+
+        internal List<Fruit> GetAllFruitsInBasket(int id)
+        {
+            return _context.FruitInBasket.Where(x => x.BasketId == id).Include(x => x.Fruit).Select(x => x.Fruit).ToList(); //Måste använda Select för att säga vilken datatyp som ska returneras
+        }
+
+        internal List<Basket> GetBaskets()
+        {
+            return _context.Baskets.Include(x => x.FruitInBaskets).ToList();
         }
 
         internal void AddFruitsInBasket()
@@ -44,24 +53,38 @@ namespace DemoWithOneProject2
             //    fruit1,
             //    fruit2
             //};
+            var torkad = new FruitCategory { Name = "Torkad" };
+            var färsk = new FruitCategory { Name = "Färsk" };
+            var mogen = new FruitCategory { Name = "Mogen" };
 
-            var basket1 = new Basket { Name = "Erikas korg" };
-            _context.Add(basket1);
-            _context.SaveChanges();
+            //Lägg till variabler med olika frukter
+            var nypon = new Fruit { Name = "Nypon", Category = färsk, Price = 29 };
+            var päron = new Fruit { Name = "Päron", Category = mogen, Price = 9 };
+            var ananas = new Fruit { Name = "Ananas", Category = färsk, Price = 39 };
+            var aprikos = new Fruit { Name = "Aprikos", Category = mogen, Price = 12 };
+            var apelsin = new Fruit { Name = "Apelsin", Category = färsk, Price = 8 };
 
-            var newListOfErikasFruits = GetAll();
+            var basket1 = new Basket { Name = "Erikas nya korg" };
 
-            FruitInBasket fruitInBasket = new FruitInBasket();
+            var fib = new List<FruitInBasket>();
+            fib.Add(new FruitInBasket { Fruit = nypon });
+            fib.Add(new FruitInBasket { Fruit = päron });
+            fib.Add(new FruitInBasket { Fruit = ananas });
 
-            foreach (var fruit in newListOfErikasFruits)
+            var basket2 = new Basket
             {
-                fruitInBasket.BasketId = basket1.Id;
-                fruitInBasket.Basket = basket1;
-                fruitInBasket.FruitId = fruit.Id;
-                fruitInBasket.Fruit = fruit;
-                _context.FruitInBasket.Add(fruitInBasket);
-            }
+                Name = "Rebeckas nya korg",
+                FruitInBaskets = new List<FruitInBasket>
+                {
+                    new FruitInBasket {Fruit = aprikos},
+                    new FruitInBasket {Fruit = apelsin},
+                    new FruitInBasket {Fruit = ananas}
+                }
+            };
 
+            basket1.FruitInBaskets = fib;
+            _context.Baskets.Add(basket1);
+            _context.Baskets.Add(basket2);
             _context.SaveChanges();
 
 
@@ -69,7 +92,6 @@ namespace DemoWithOneProject2
 
         internal List<Fruit> GetFruitsInCategory(string fruitCategory)
         {
-            //return _context.Fruits.Where(x => x.Category.Name == fruitCategory).Include(x => x.Category).ToList();
             return  _context.Fruits.Where(x => x.Category.Name == fruitCategory).ToList();
         }
 

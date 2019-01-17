@@ -4,14 +4,16 @@ using DemoWithOneProject2;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DemoWithOneProject2.Migrations
 {
     [DbContext(typeof(FruitContext))]
-    partial class FruitContextModelSnapshot : ModelSnapshot
+    [Migration("20190117092559_dd")]
+    partial class dd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace DemoWithOneProject2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Basket");
                 });
 
             modelBuilder.Entity("DemoWithOneProject2.Fruit", b =>

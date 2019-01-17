@@ -11,12 +11,32 @@ namespace DemoWithOneProject2
             //DisplayAllFruits();
             //DisplayJustMognaFrukter();
 
-            AddFruitsToBasket();
+            //AddFruitsToBasket();
+            DisplayBasketsWithContent();
 
-            //Skapa kundkorg m frukt i
+        }
 
-            //Migrationer: slippa rasera huset och bygga nytt; bara göra utbyggnad istället
-            //Package manager console: Skriv Add-Migration Init
+        private static void DisplayBasketsWithContent()
+        {
+            var dataAccess = new DataAccess();
+            List<Basket> listOfBaskets = dataAccess.GetBaskets();
+
+            Console.WriteLine("VARUKORGAR\n");
+
+
+            foreach (var basket in listOfBaskets)
+            {
+                Console.WriteLine(basket.Name.ToUpper());
+
+                List<Fruit> fruitsInBasket = dataAccess.GetAllFruitsInBasket(basket.Id);
+
+                foreach (var fruit in fruitsInBasket)
+                {
+                    Console.WriteLine(fruit.Name);
+                }
+
+                Console.WriteLine();
+            }
         }
 
         private static void AddFruitsToBasket()
@@ -53,7 +73,7 @@ namespace DemoWithOneProject2
         private static void ClearAndInitDatabase()
         {
             var dataAccess = new DataAccess();
-            dataAccess.AddCateroriesAndFruits();
+            dataAccess.AddCategoriesAndFruits();
             //dataAccess.ClearDatabase();
         }
     }
