@@ -16,10 +16,6 @@ namespace DemoWithOneProject2
 
         internal void AddCateroriesAndFruits()
         {
-            //_context.FruitCategories.Add(new FruitCategory { Name = "Färska" });
-            //_context.FruitCategories.Add(new FruitCategory { Name = "Mogen" });
-            //_context.FruitCategories.Add(new FruitCategory { Name = "Övermogen" });
-            //_context.Fruits.Add(new Fruit { Name = "Banana", Category = new FruitCategory { Name = "Rutten" }});
 
             var torkad = new FruitCategory { Name = "Torkad" };
             var färsk = new FruitCategory { Name = "Färsk" };
@@ -27,31 +23,58 @@ namespace DemoWithOneProject2
 
             //_context.FruitCategories.Add(torkad); överflödigt här då den fattar att man ska lägga till ny kategori pga koden nedan 
 
-            //_context.Fruits.Add(new Fruit { Name = "Banana", Category = mogen, Price = 29});
-            //_context.Fruits.Add(new Fruit { Name = "Äpple", Category = färsk, Price = 20 });
-            //_context.Fruits.Add(new Fruit { Name = "Aprikos", Category = torkad, Price = 55 });
-
-            _context.Fruits.Add(new Fruit { Name = "Physialis", Price = 30 });
-
-           // _context.Fruits.Add(new Fruit { Name = "Äpple", Category = _context.FruitCategories.Where(x => x.Name == "Mogen").Select() });
+            _context.Fruits.Add(new Fruit { Name = "Päron", Category = mogen, Price = 19 });
+            _context.Fruits.Add(new Fruit { Name = "Apelsin", Category = färsk, Price = 25 });
+            _context.Fruits.Add(new Fruit { Name = "Persika", Category = torkad, Price = 55 });
 
             _context.SaveChanges();
         }
 
+        internal void AddFruitsInBasket()
+        {
+            //var torkad = new FruitCategory { Name = "Torkad" };
+            //var färsk = new FruitCategory { Name = "Färsk" };
+            //var mogen = new FruitCategory { Name = "Mogen" };
+
+            //var fruit1 = new Fruit { Name = "Apelsin", Category = färsk, Price = 25 };
+            //var fruit2 = new Fruit { Name = "Persika", Category = torkad, Price = 55 };
+
+            //List<Fruit> listOfFruits = new List<Fruit>
+            //{
+            //    fruit1,
+            //    fruit2
+            //};
+
+            var basket1 = new Basket { Name = "Erikas korg" };
+            _context.Add(basket1);
+            _context.SaveChanges();
+
+            var newListOfErikasFruits = GetAll();
+
+            FruitInBasket fruitInBasket = new FruitInBasket();
+
+            foreach (var fruit in newListOfErikasFruits)
+            {
+                fruitInBasket.BasketId = basket1.Id;
+                fruitInBasket.Basket = basket1;
+                fruitInBasket.FruitId = fruit.Id;
+                fruitInBasket.Fruit = fruit;
+                _context.FruitInBasket.Add(fruitInBasket);
+            }
+
+            _context.SaveChanges();
+
+
+        }
+
         internal List<Fruit> GetFruitsInCategory(string fruitCategory)
         {
-            List<Fruit> fruits = new List<Fruit>();
-
-            return _context.Fruits.Where(x => x.Category.Name == fruitCategory).Include(x => x.Category).ToList();
-            //return _context.Fruits.Where(x => x.Category.Name == fruitCategory).Select(x=>new Fruit { Name=x.Name+"wwww"}).ToList();
-            //fruits = _context.Fruits.Where(x => x.Category.Name == fruitCategory).ToList();
-            //return fruits;
+            //return _context.Fruits.Where(x => x.Category.Name == fruitCategory).Include(x => x.Category).ToList();
+            return  _context.Fruits.Where(x => x.Category.Name == fruitCategory).ToList();
         }
 
         internal IEnumerable<Fruit> GetAll()
         {
-            //return _context.Fruits.Where(s => s.Name != "").Include(s => s.Category);
-
             return _context.Fruits.Include(x => x.Category);
         }
 

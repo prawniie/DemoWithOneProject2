@@ -9,6 +9,7 @@ namespace DemoWithOneProject2
     {
         public DbSet<Fruit> Fruits { get; set; }
         public DbSet<FruitCategory> FruitCategories { get; set; }
+        public DbSet<FruitInBasket> FruitInBasket { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

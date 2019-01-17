@@ -7,14 +7,23 @@ namespace DemoWithOneProject2
     {
         static void Main(string[] args)
         {
-            //FruitContext context = new FruitContext();
-
             //ClearAndInitDatabase();
-            DisplayAllFruits();
-            DisplayJustMognaFrukter();
+            //DisplayAllFruits();
+            //DisplayJustMognaFrukter();
+
+            AddFruitsToBasket();
+
+            //Skapa kundkorg m frukt i
 
             //Migrationer: slippa rasera huset och bygga nytt; bara göra utbyggnad istället
             //Package manager console: Skriv Add-Migration Init
+        }
+
+        private static void AddFruitsToBasket()
+        {
+            var dataAccess = new DataAccess();
+            dataAccess.AddFruitsInBasket();
+            
         }
 
         private static void DisplayJustMognaFrukter()
